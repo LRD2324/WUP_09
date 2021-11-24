@@ -25,7 +25,20 @@ perch <- select(perch, -Species)
 
 ## Build the best regression model you can that predicts the weight of perch
 ## Using only two predictor variables  
+# Perch
+# Different Plots for Correlation
+```{r}
+basicNN <- ggplot(perch,aes(y=Weight,x=Height))
+basicNN + geom_point() + geom_smooth(method=lm) + ggtitle("Perch")
+```
 
+```{r}
+basicNN <- ggplot(perch,aes(y=Weight,x=Width))
+basicNN + geom_point() + geom_smooth(method=lm) + ggtitle("Perch")
+```
+  
+The scatter plots above illustrate a basic positive linear correlation between the width and height values to weight. These correlations are actually extremely tight knit comparatively to a usual spread. This is partially just the fact that the values are so much larger in the y direction though. Regardless, the graphs illustrate a relationship between these variables that will be further investigated.
+  
 ```{r}
 library(leaps)
 regsubsets.out <-
@@ -73,7 +86,9 @@ subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2
 RoachMODL <- lm(Weight~ Length3+Width,data=Roach)
 summary.lm(RoachMODL)
 ```
-
+  
+The two regression model found to be most accurate utilized length and width variables to predict the weight of Roach. Not only is this model the most accurate two variable predictor model, it is the most accurate model overall. Our adjusted R-squared value is relatively high at 0.8482, but it is quite less impressive than the model used for Pike which has an extremely high error value.
+  
 # Pike
 ```{r}
 Pike <- filter(mydata, Species == "Pike")
@@ -100,6 +115,9 @@ subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2
 PikeMODL <- lm(Weight~ Length1+Length3,data=Pike)
 summary.lm(PikeMODL)
 ```
+  
+This pike test determined that the most valuable model would utilize length and length3 to determine the weight of the pike. This is dissimilar to the other models which used length and width. However, despite having the extremely accurate adjusted R-squared value of 0.9649, this model is not as accurate as a regression model with all variables included.
+  
 
 # Discussion and Conclusion
 
